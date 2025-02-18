@@ -3,7 +3,7 @@ import { AiAvatar, Crown, Night, UserAvatar } from "../utils/assets";
 const Home = () => {
   return (
     <div className="flex">
-      <div className="sidebar flex flex-col justify-start gap-[20px] border-[1px] border-[#E2E8F0] w-[360px] h-screen">
+      <div className="sidebar sticky-0 flex flex-col justify-start gap-[20px] border-[1px] border-[#E2E8F0] w-[360px] h-screen">
         <div className="logo flex gap-[8px] items-center h-[80px] w-full px-[24px] py-[20px] border-[1px] border-[#CBD5E1]">
           <img src={Crown} className="gap-[8px]  w-[32px] h-[32px]" />
           <h1 className="text-[30px] leading-[30px] font-bold">iboT-GPT</h1>
