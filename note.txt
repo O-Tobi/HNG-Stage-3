@@ -1,0 +1,148 @@
+import { useState, useEffect } from "react";
+
+const App = () => {
+  const [inputField, setInputField] = useState("");
+  const [summarizer, setSummarizer] = useState(null);
+
+
+  const handleChange = (e) => {
+    const inputValue = e.target.value
+    setInputField(inputValue);
+    console.log(inputField);
+  }
+
+  
+
+  useEffect(() => {
+    const initSummarizer = async () => {
+      try {
+        const capabilities = await self.ai.summarizer.capabilities();
+
+        if (capabilities.available === "no") {
+          // The Summarizer API isn't usable.
+          return;
+        }
+
+        let instance = await self.ai.summarizer.create(options);
+
+        if (capabilities.available !== "readily") {
+          // The Summarizer API can be used after the model is downloaded.
+          instance.addEventListener("downloadprogress", (e) => {
+            console.log(e.loaded, e.total);
+          });
+          await instance.ready;
+        }
+
+        setSummarizer(instance);
+      } catch (error) {
+        console.error("Error initializing summarizer:", error);
+      }
+      const options = {
+        sharedContext: inputField,
+        type: 'key-points',
+        format: 'markdown',
+        length: 'medium',
+      };
+    };
+
+    initSummarizer();
+  }, [inputField]);
+
+  
+
+  
+
+  return (
+    <div>
+      <div className="output">{}</div>
+
+      <form action="submit" method="post">
+        <input onChange={handleChange}  type="text" />
+        <button type="submit">Submit</button>
+      </form>
+
+    </div>
+  );
+};
+
+export default App;
+
+
+
+----------------LATEST WORKING CODE------------------------------
+
+import { useEffect, useState } from "react";
+
+const App = () => {
+  const [textInput, setTextInput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+
+
+  useEffect(() => {
+    const initSummarizer = async () => {
+      const options = {
+        sharedContext: 'This is a scientific article',
+        type: 'key-points',
+        format: 'markdown',
+        length: 'medium',
+      };
+
+      try {
+        setIsLoading(true);
+        setIsError(false);
+        const apiCheck = await self.ai.summarizer.capabilities();
+        const available = apiCheck?.available;
+        console.log(available);
+
+        if (available === "no") {
+          console.log("e no dey work");
+          setIsLoading(false);
+          return;
+        } else if (available === "readily") {
+          const summarizer = await self.ai.summarizer.create(options);
+          const summary = await summarizer.summarize({
+            context: 'This article is intended for a tech-savvy audience.',
+          });
+          setTextInput(summary)
+          console.log("sharp");
+        } else {
+          console.log("we have to download the model");
+          // The Summarizer API can be used after the model is downloaded.
+         const summarizer = await self.ai.summarizer.create(options);
+          summarizer.addEventListener("downloadprogress", (e) => {
+            console.log(e.loaded, e.total);
+          });
+          await summarizer.ready;
+        }
+      } catch (error) {
+        setIsError(true);
+        console.warn(error);
+      } finally {
+        setIsLoading(false);
+        console.log("it is done");
+      }
+    };
+
+    initSummarizer();
+  }, []);
+
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
+
+  if (isError) {
+    console.log("baba nla error");
+  }
+
+  return (
+    <div>
+      <p>{textInput}</p>
+    </div>
+  );
+};
+
+export default App;
+
+.............ui.............................
+
