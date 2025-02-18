@@ -1,4 +1,4 @@
-import { Crown, Night } from "../utils/assets";
+import { AiAvatar, Crown, Night, UserAvatar } from "../utils/assets";
 
 const Home = () => {
   return (
@@ -30,11 +30,39 @@ const Home = () => {
         </div>
 
         {/* the programs to be imported here */}
-        <div className="chat flex items-center justify-center px-[96px] py-[32px] gap-[24px]">
-         <div className="userinput flex flex-col justify-end w-[808px] h-[78px] gap-[12px] ">
-            <p className="font-bold">You</p>
-            <p className=" flex w-2/5 rounded-[24px] p-[12px] gap-[10px] bg-[#F8FAFC]"> do android really dream</p>
-        </div>   
+        <div className="chat flex flex-col items-center px-[96px] py-[32px] gap-[24px]">
+          {/* User 1 (Right-aligned) */}
+          <div className="userinput flex justify-end gap-2 w-full">
+            <div className="flex flex-col items-end  max-w-[808px]">
+              <p className="font-bold text-right">You</p>
+              <p className="bg-[#F8FAFC] rounded-[24px] p-[12px] pr-0  gap-[10px] w-fit">
+                Do androids really dream? You can achieve this chat layout by
+                using flex with justify-end for user1 (right-aligned) and
+                justify-start for user2 (left-aligned). Here's a more structured
+                approach using Tailwind CSS:
+              </p>
+            </div>
+            <div>
+              <img src={UserAvatar} alt="" className="w-[48px] h-[48px]" />
+            </div>
+          </div>
+
+          {/* User 2 (Left-aligned) */}
+          <div className="userinput flex items-start gap-2 justify-start w-full">
+            <div>
+              <img src={AiAvatar} alt="" className="w-[48px] h-[48px]" />
+            </div>
+
+            <div className="flex flex-col items-start max-w-[808px]">
+              <p className="font-bold text-left">User 2</p>
+              <p className="bg-[#F8FAFC] rounded-[24px] p-[12px] gap-[10px] w-fit">
+                You can achieve this chat layout by using flex with justify-end
+                for user1 (right-aligned) and justify-start for user2
+                (left-aligned). Here's a more structured approach using Tailwind
+                CSS:
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
