@@ -120,7 +120,7 @@ const Summarizer = () => {
           ))}
         </div>
 
-        <div className="inputfield bg-white fixed bottom-0 w-8/12 max-w-screen-lg mx-auto px-[80px] py-[16px]">
+        <div className="inputfield bg-white fixed bottom-0 md:w-8/12 max-w-screen-lg mx-auto md:px-[80px] md:py-[16px]">
           <form
             onSubmit={handleSubmit}
             className="flex items-center gap-4 bg-gray-100 rounded-full px-4 py-3 w-full"
