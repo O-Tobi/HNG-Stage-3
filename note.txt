@@ -146,3 +146,59 @@ export default App;
 
 .............ui.............................
 
+
+<div className="input-box">
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            value={tempInput}
+            onChange={(e) => setTempInput(e.target.value)}
+            placeholder="Type a message..."
+          />
+          <button type="submit" disabled={isLoading}>
+            {isLoading ? "Loading..." : "Send"}
+          </button>
+        </form>
+      </div>
+
+
+
+
+
+
+
+
+ <div className="chat flex flex-col items-center px-[80px] py-[32px] gap-[24px] max-w-screen-lg mx-auto">
+            {/* User 1 (Right-aligned) */}
+            <div className="userinput flex justify-end gap-2 w-full">
+              <div className="flex flex-col items-end max-w-[80%]">
+                <p className="font-bold text-right">You</p>
+                <p className="bg-[#F8FAFC] rounded-[24px] p-[12px] gap-[10px] break-words">
+                  Do androids really dream? You can achieve this chat layout by
+                  using flex with justify-end for user1 (right-aligned) and
+                  justify-start for user2 (left-aligned).
+                </p>
+              </div>
+              <div>
+                <img src={UserAvatar} alt="" className="w-[48px] h-[48px]" />
+              </div>
+            </div>
+  
+            {/* User 2 (Left-aligned) */}
+            <div className="userinput flex items-start gap-2 justify-start w-full">
+              <div>
+                <img src={AiAvatar} alt="" className="w-[48px] h-[48px]" />
+              </div>
+  
+              <div className="flex flex-col items-start max-w-[80%]">
+                <p className="font-bold text-left">User 2</p>
+                <p className="bg-[#F8FAFC] rounded-[24px] p-[12px] gap-[10px] break-words">
+                  You can achieve this chat layout by using flex with justify-end
+                  for user1 (right-aligned) and justify-start for user2
+                  (left-aligned).
+                </p>
+              </div>
+            </div>
+
+ 
+          </div>
