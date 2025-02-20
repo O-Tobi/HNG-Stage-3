@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "./Chat.css"; // Ensure to create and style this file
+import "./Chat.css";
 import { SubmitButton } from "../utils/assets";
 
 const Summarizer = () => {
@@ -40,6 +40,7 @@ const Summarizer = () => {
           setIsError(true);
           return;
         }
+        await summarizer.ready;
 
         if (apiCheck.available === "readily") {
           const summary = await summarizer.summarize(options.sharedContext);
@@ -94,7 +95,6 @@ const Summarizer = () => {
             key={index}
             className={`flex flex-col items-end max-w-[80%] ${msg.sender}`}
           >
-            <p className="font-bold text-right">{msg.sender}</p>
             <p
               className={`${
                 msg.sender === "user"
