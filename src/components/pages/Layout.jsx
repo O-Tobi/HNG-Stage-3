@@ -26,7 +26,7 @@ const Layout = () => {
         </div>
 
         {/* Buttons Section */}
-        <div className="program flex md:flex-col gap-2 md:gap-4 p-1 md:p-2 w-9/12 justify-center">
+        <div className="program flex md:flex-col gap-2 md:gap-4 p-1 md:p-2 w-9/12 md:w-full justify-center">
           <button
             onClick={summarizerNavigation}
             className="btn px-4 py-2 md:px-6 md:py-3 rounded-md border border-[#4F46E5] text-sm md:text-base w-auto md:w-full focus:text-white focus:bg-[#4F46E5] transition duration-300"

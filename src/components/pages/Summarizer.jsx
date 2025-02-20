@@ -94,9 +94,9 @@ const Summarizer = () => {
     <div className="main flex flex-col flex-grow">
       {/* Header */}
       <div className="header sticky top-0 bg-white flex justify-center items-center md:items-start flex-col h-[60px] md:h-[80px] px-[16px] md:px-[32px]  py-[10px] md:py-[20px] gap-[10px] border-[1px] border-[#CBD5E1]">
-        
-          <h1 className="title flex-1 font-bold text-[25px] md:text-[30px]">Summarizer</h1>
-        
+        <h1 className="title flex-1 font-bold text-[25px] md:text-[30px]">
+          Summarizer
+        </h1>
       </div>
 
       {/* Chat Section */}
