@@ -100,8 +100,8 @@ const Summarizer = () => {
       </div>
 
       {/* Chat Section */}
-      <div className="chat flex flex-col items-center px-[80px] py-[32px] gap-[24px] max-w-screen-lg ">
-        <div className="userinput flex flex-col justify-end gap-2 w-full mb-[100px]">
+      <div className="chat flex flex-col items-center  px-[20px] md:px-[80px] md:py-[32px] gap-[12px] md:gap-[24px] max-w-screen-lg ">
+        <div className="userinput flex flex-col justify-end gap-2 w-full mb-[80px] md:mb-[100px]">
           {messages.map((msg, index) => (
             <div
               key={index}
