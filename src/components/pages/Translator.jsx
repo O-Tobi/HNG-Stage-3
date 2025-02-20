@@ -44,7 +44,7 @@ const Translator = () => {
 
         const detector = await self.ai.languageDetector.create();
         if (!detector) {
-          console.error("Failed to create language detector.");
+          setMessages((prev) => [...prev, { sender: "bot", text: "Translator AAPI not available"}]);
           setIsError(true);
           return;
         }
@@ -127,7 +127,14 @@ const Translator = () => {
   };
 
   return (
-    <div className="chat flex flex-col items-center px-[80px] py-[32px] gap-[24px] max-w-screen-lg mx-auto">
+    <div className="main flex flex-col flex-grow">
+          {/* Header */}
+          <div className="header sticky top-0 bg-white flex justify-center items-center md:items-start flex-col h-[60px] md:h-[80px] px-[16px] md:px-[32px] py-[10px] md:py-[20px] gap-[10px] border-[1px] border-[#CBD5E1]">
+              <h1 className="title flex-1 font-bold text-[25px] md:text-[30px]">Translator</h1>
+          </div>
+  
+          {/* Chat Section */}
+          <div className="chat flex flex-col items-center px-[80px] py-[32px] gap-[24px] max-w-screen-lg ">
       <div className="userinput flex flex-col justify-end gap-2 w-full mb-[100px]">
         {messages.map((msg, index) => (
           <div
@@ -174,7 +181,7 @@ const Translator = () => {
               type="text"
               value={tempInput}
               onChange={(e) => setTempInput(e.target.value)}
-              placeholder="Summarize text..."
+              placeholder="Translate text..."
               className="flex-grow bg-transparent border-none outline-none text-gray-800 p-2"
             />
 
@@ -199,9 +206,13 @@ const Translator = () => {
       </div>
 
       {isError && (
-        <p className="error-message">An error occurred. Try again.</p>
+        <p className="error-message text-[1px]">An error occurred. Try again.</p>
       )}
-    </div>
+    </div> 
+         
+        </div>
+    
+    
   );
 };
 
