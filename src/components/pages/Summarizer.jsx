@@ -94,14 +94,14 @@ const Summarizer = () => {
     <div className="main flex flex-col flex-grow">
       {/* Header */}
       <div className="header sticky top-0 bg-white flex justify-center items-center md:items-start flex-col h-[60px] md:h-[80px] px-[16px] md:px-[32px]  py-[10px] md:py-[20px] gap-[10px] border-[1px] border-[#CBD5E1]">
-        
-          <h1 className="title flex-1 font-bold text-[25px] md:text-[30px]">Summarizer</h1>
-        
+        <h1 className="title flex-1 font-bold text-[25px] md:text-[30px]">
+          Summarizer
+        </h1>
       </div>
 
       {/* Chat Section */}
-      <div className="chat flex flex-col items-center px-[80px] py-[32px] gap-[24px] max-w-screen-lg ">
-        <div className="userinput flex flex-col justify-end gap-2 w-full mb-[100px]">
+      <div className="chat flex flex-col items-center  px-[20px] md:px-[80px] md:py-[32px] gap-[12px] md:gap-[24px] max-w-screen-lg ">
+        <div className="userinput flex flex-col justify-end gap-2 w-full mb-[80px] md:mb-[100px]">
           {messages.map((msg, index) => (
             <div
               key={index}
@@ -120,7 +120,7 @@ const Summarizer = () => {
           ))}
         </div>
 
-        <div className="inputfield bg-white fixed bottom-0 w-8/12 max-w-screen-lg mx-auto px-[80px] py-[16px]">
+        <div className="inputfield bg-white fixed bottom-0 md:w-8/12 max-w-screen-lg mx-auto md:px-[80px] md:py-[16px]">
           <form
             onSubmit={handleSubmit}
             className="flex items-center gap-4 bg-gray-100 rounded-full px-4 py-3 w-full"
