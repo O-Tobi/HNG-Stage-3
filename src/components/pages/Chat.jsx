@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import "./Chat.css"; // Ensure to create and style this file
-import { SubmitButton } from "../utils/assets";
 
 const Summarizer = () => {
   const [messages, setMessages] = useState([
@@ -21,7 +20,7 @@ const Summarizer = () => {
         const options = {
           sharedContext: textInput,
           type: "key-points",
-          format: "sentence",
+          format: "markdown",
           length: "medium",
         };
 
@@ -69,10 +68,7 @@ const Summarizer = () => {
     };
 
     // If the last message was from the user, generate a summary
-    if (
-      messages.length > 1 &&
-      messages[messages.length - 1].sender === "user"
-    ) {
+    if (messages.length > 1 && messages[messages.length - 1].sender === "user") {
       const userMessage = messages[messages.length - 1].text;
       initSummarizer(userMessage);
     }
@@ -87,61 +83,28 @@ const Summarizer = () => {
   };
 
   return (
-    <div className="chat flex flex-col items-center px-[80px] py-[32px] gap-[24px] max-w-screen-lg mx-auto">
-      <div className="userinput flex flex-col justify-end gap-2 w-full mb-[100px]">
+    <div className="chat-container">
+      <div className="chat-box">
         {messages.map((msg, index) => (
-          <div
-            key={index}
-            className={`flex flex-col items-end max-w-[80%] ${msg.sender}`}
-          >
-            <p className="font-bold text-right">{msg.sender}</p>
-            <p
-              className={`${
-                msg.sender === "user"
-                  ? "bg-[#4F46E5] text-white"
-                  : "bg-[#F8FAFC]"
-              } rounded-[24px] p-[12px] gap-[10px] break-words`}
-            >
-              {msg.text}
-            </p>
+          <div key={index} className={`message ${msg.sender}`}>
+            {msg.text}
           </div>
         ))}
       </div>
-
-      <div className="inputfield bg-white fixed bottom-0 w-full max-w-screen-lg mx-auto px-[80px] py-[16px]">
-        <form
-          onSubmit={handleSubmit}
-          className="flex items-center gap-4 bg-gray-100 rounded-full px-4 py-3 w-full"
-        >
+      <div className="input-box">
+        <form onSubmit={handleSubmit}>
           <input
             type="text"
             value={tempInput}
             onChange={(e) => setTempInput(e.target.value)}
-            placeholder="Summarize text..."
-            className="flex-grow bg-transparent border-none outline-none text-gray-800 p-2"
+            placeholder="Type a message..."
           />
-
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="bg-[#1E293B] text-white rounded-full p-0 flex items-center justify-center transition duration-300"
-          >
-            {isLoading ? (
-              <span className="animate-spin w-[24px] h-[24px] border-2 border-white bg-white border-t-[#4F46E5] rounded-full"></span>
-            ) : (
-              <img
-                src={SubmitButton}
-                className="w-[24px] h-[24px]"
-                alt="Send"
-              />
-            )}
+          <button type="submit" disabled={isLoading}>
+            {isLoading ? "Loading..." : "Send"}
           </button>
         </form>
       </div>
-
-      {isError && (
-        <p className="error-message">An error occurred. Try again.</p>
-      )}
+      {isError && <p className="error-message">An error occurred. Try again.</p>}
     </div>
   );
 };
