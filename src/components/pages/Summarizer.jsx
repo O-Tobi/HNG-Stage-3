@@ -21,7 +21,7 @@ const Summarizer = () => {
         const options = {
           sharedContext: textInput,
           type: "key-points",
-          format: "sentence",
+          format: "plain-text",
           length: "medium",
         };
 
@@ -34,7 +34,7 @@ const Summarizer = () => {
           return;
         }
 
-        const summarizer = await self.ai.summarizer.create();
+        const summarizer = await self.ai.summarizer.create(options);
         if (!summarizer) {
           console.error("Failed to create summarizer.");
           setIsError(true);
@@ -43,7 +43,7 @@ const Summarizer = () => {
         await summarizer.ready;
 
         if (apiCheck.available === "readily") {
-          const summary = await summarizer.summarize(options.sharedContext);
+          const summary = await summarizer.summarize(options);
           let result = "";
 
           if (summary && typeof summary[Symbol.asyncIterator] === "function") {

@@ -38,21 +38,9 @@ import {
         </div>
   
         {/* Main Content */}
-        <div className="main flex flex-col flex-grow">
-          {/* Header */}
-          <div className="header sticky top-0 bg-white flex justify-center flex-col h-[80px] px-[32px] py-[20px] gap-[10px] border-[1px] border-[#CBD5E1]">
-            <div className="flex items-center justify-center">
-              <div className="lightmode flex-1">
-                <img src={Night} className="w-[24px] h-[24px]" />
-              </div>
-              <h1 className="title flex-1 font-bold text-[30px]">Summarizer</h1>
-            </div>
-          </div>
-  
-          {/* Chat Section */}
-            <Outlet />
-         
-        </div>
+
+        <Outlet/>
+        
       </div>
     );
   };

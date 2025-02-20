@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "./Chat.css";
 import { SubmitButton } from "../utils/assets";
+import { languages } from "../utils/constants";
 
 const Translator = () => {
   const [messages, setMessages] = useState([
@@ -11,7 +12,7 @@ const Translator = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [tempLanguage, setTempLanguage] = useState("");
-
+  const [finalLanguage, setFinalLanguage] = useState(languages[0].code);
 
   // language detection API call
   useEffect(() => {
@@ -64,7 +65,52 @@ const Translator = () => {
     initDetector(userInput);
   }, [userInput]);
 
-  
+  //   translator api call here
+
+  useEffect(() => {
+    const initTranslator = async () => {
+      try {
+        if (!self?.ai?.translator) {
+          setIsError(true);
+          return;
+        }
+
+        setIsLoading(true);
+        setIsError(false);
+
+        const apiCheck = await self.ai.translator.capabilities();
+        if (!apiCheck || apiCheck.available === "no") {
+          setIsError(true);
+          return;
+        }
+
+        const translator = await self.ai.translator.create({
+          sourceLanguage: tempLanguage,
+          targetLanguage: finalLanguage,
+        });
+
+        if (!translator) {
+          console.error("Failed to create translator.");
+          setIsError(true);
+          return;
+        }
+
+        if (apiCheck.available === "readily") {
+          const translated = await translator.translate(userInput);
+          setMessages((prev) => [...prev, { sender: "bot", text: translated }]);
+        }
+      } catch (error) {
+        console.error("Error fetching translation:", error);
+        setIsError(true);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (userInput) {
+      initTranslator();
+    }
+  }, [userInput, tempLanguage, finalLanguage]); // Added dependencies
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -75,20 +121,25 @@ const Translator = () => {
     setTempInput(""); // Clear input field
   };
 
+  const handleSelectedLanguage = (event) => {
+    setFinalLanguage(event.target.value);
+    console.log("Selected Language:", event.target.value);
+  };
+
   return (
     <div className="chat flex flex-col items-center px-[80px] py-[32px] gap-[24px] max-w-screen-lg mx-auto">
       <div className="userinput flex flex-col justify-end gap-2 w-full mb-[100px]">
         {messages.map((msg, index) => (
           <div
             key={index}
-            className={`flex flex-col items-end max-w-[80%] ${msg.sender}`}
+            className={`flex flex-col items-end  max-w-[80%] ${msg.sender}`}
           >
             <p
               className={`${
                 msg.sender === "user"
                   ? "bg-[#4F46E5] text-white"
                   : "bg-[#F8FAFC]"
-              } rounded-[24px] p-[12px] gap-[10px] break-words`}
+              } rounded-[24px] p-[12px] gap-[10px] min-w-[80px] break-words`}
             >
               {msg.text}
             </p>
@@ -96,35 +147,55 @@ const Translator = () => {
         ))}
       </div>
 
-      <div className="inputfield bg-white fixed bottom-0 w-full max-w-screen-lg mx-auto px-[80px] py-[16px]">
-        <form
-          onSubmit={handleSubmit}
-          className="flex items-center gap-4 bg-gray-100 rounded-full px-4 py-3 w-full"
-        >
-          <input
-            type="text"
-            value={tempInput}
-            onChange={(e) => setTempInput(e.target.value)}
-            placeholder="Summarize text..."
-            className="flex-grow bg-transparent border-none outline-none text-gray-800 p-2"
-          />
-
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="bg-[#1E293B] text-white rounded-full p-0 flex items-center justify-center transition duration-300"
+      <div className="flex flex-col items-center w-full ">
+        {/* Input and Selector Container */}
+        <div className="fixed bottom-0 w-8/12 max-w-screen-lg mx-auto px-[80px] py-[16px]">
+          <form
+            onSubmit={handleSubmit}
+            className="flex items-center gap-4 bg-gray-100 rounded-full px-4 py-3 w-full"
           >
-            {isLoading ? (
-              <span className="animate-spin w-[24px] h-[24px] border-2 border-white bg-white border-t-[#4F46E5] rounded-full"></span>
-            ) : (
-              <img
-                src={SubmitButton}
-                className="w-[24px] h-[24px]"
-                alt="Send"
-              />
-            )}
-          </button>
-        </form>
+            {/* Language Selector */}
+            <div className="w-[150px]">
+              <select
+                className="select select-bordered w-full h-full"
+                value={finalLanguage}
+                onChange={handleSelectedLanguage}
+              >
+                {languages.map((lang) => (
+                  <option key={lang.code} value={lang.code}>
+                    {lang.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Text Input */}
+            <input
+              type="text"
+              value={tempInput}
+              onChange={(e) => setTempInput(e.target.value)}
+              placeholder="Summarize text..."
+              className="flex-grow bg-transparent border-none outline-none text-gray-800 p-2"
+            />
+
+            {/* Submit Button */}
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="bg-[#1E293B] text-white rounded-full p-0 flex items-center justify-center transition duration-300"
+            >
+              {isLoading ? (
+                <span className="animate-spin w-[24px] h-[24px] border-2 border-white bg-white border-t-[#4F46E5] rounded-full"></span>
+              ) : (
+                <img
+                  src={SubmitButton}
+                  className="w-[24px] h-[24px]"
+                  alt="Send"
+                />
+              )}
+            </button>
+          </form>
+        </div>
       </div>
 
       {isError && (
