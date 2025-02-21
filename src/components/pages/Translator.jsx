@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import "./Chat.css";
 import { SubmitButton } from "../utils/assets";
 import { languages } from "../utils/constants";
 
@@ -15,7 +14,7 @@ const Translator = () => {
   const [finalLanguage, setFinalLanguage] = useState(languages[0].code);
   const [placeHolder, setPlaceHolder] = useState("Translate text...");
 
-  // language detection API call
+  // Language detection API call
   useEffect(() => {
     const initDetector = async (userInput) => {
       try {
@@ -47,7 +46,7 @@ const Translator = () => {
         if (!detector) {
           setMessages((prev) => [
             ...prev,
-            { sender: "bot", text: "Translator AAPI not available" },
+            { sender: "bot", text: "Translator API not available" },
           ]);
           setIsError(true);
           return;
@@ -69,8 +68,7 @@ const Translator = () => {
     initDetector(userInput);
   }, [userInput]);
 
-  //   translator api call here
-
+  // Translator API call
   useEffect(() => {
     const initTranslator = async () => {
       try {
@@ -114,8 +112,9 @@ const Translator = () => {
     if (userInput) {
       initTranslator();
     }
-  }, [userInput, tempLanguage, finalLanguage]); // Added dependencies
+  }, [userInput, tempLanguage, finalLanguage]); // Dependencies to trigger translation
 
+  // Handles user input submission
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!tempInput.trim()) {
@@ -129,6 +128,7 @@ const Translator = () => {
     setPlaceHolder("Translate text...");
   };
 
+  // Handles language selection change
   const handleSelectedLanguage = (event) => {
     setFinalLanguage(event.target.value);
     console.log("Selected Language:", event.target.value);
@@ -144,12 +144,12 @@ const Translator = () => {
       </div>
 
       {/* Chat Section */}
-      <div className="chat flex flex-col items-center  px-[20px] md:px-[80px] md:py-[32px] gap-[12px] md:gap-[24px] max-w-screen-lg ">
+      <div className="chat flex flex-col items-center px-[20px] md:px-[80px] md:py-[32px] gap-[12px] md:gap-[24px] max-w-screen-lg">
         <div className="userinput flex flex-col justify-end gap-2 w-full mb-[80px] md:mb-[100px]">
           {messages.map((msg, index) => (
             <div
               key={index}
-              className={`flex flex-col items-end  max-w-[80%] ${msg.sender}`}
+              className={`flex flex-col items-end max-w-[80%] ${msg.sender}`}
             >
               <p
                 className={`${
@@ -199,7 +199,7 @@ const Translator = () => {
               <button
                 type="submit"
                 disabled={isLoading}
-                className=" text-white rounded-full w-12 h-12 md:w-14 md:h-14 flex items-center justify-center transition duration-300"
+                className="text-white rounded-full w-12 h-12 md:w-14 md:h-14 flex items-center justify-center transition duration-300"
               >
                 {isLoading ? (
                   <span className="animate-spin w-12 h-12 border-2 border-white bg-white border-t-[#4F46E5] rounded-full"></span>
@@ -211,6 +211,7 @@ const Translator = () => {
           </div>
         </div>
 
+        {/* Error Message Display */}
         {isError && (
           <div>
             <p className="text-red-500">Error! Translator API unavailable</p>
