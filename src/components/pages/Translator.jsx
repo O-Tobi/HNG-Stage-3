@@ -13,6 +13,7 @@ const Translator = () => {
   const [isError, setIsError] = useState(false);
   const [tempLanguage, setTempLanguage] = useState("");
   const [finalLanguage, setFinalLanguage] = useState(languages[0].code);
+  const [placeHolder, setPlaceHolder] = useState("Translate text...");
 
   // language detection API call
   useEffect(() => {
@@ -117,7 +118,10 @@ const Translator = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!tempInput.trim()) return;
+    if (!tempInput.trim()) {
+      setPlaceHolder("⚠️ Please enter text!");
+      return;
+    }
     setUserInput(tempInput);
 
     setMessages((prev) => [...prev, { sender: "user", text: tempInput }]);
@@ -186,7 +190,7 @@ const Translator = () => {
                 type="text"
                 value={tempInput}
                 onChange={(e) => setTempInput(e.target.value)}
-                placeholder="Translate text..."
+                placeholder={placeHolder}
                 className="flex-grow bg-transparent border-none outline-none text-gray-800 h-12 md:h-14 p-2 md:p-3 w-full"
               />
 
@@ -207,21 +211,8 @@ const Translator = () => {
         </div>
 
         {isError && (
-          <div role="alert" className="alert alert-error">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 shrink-0 stroke-current"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-            <span>Error! Translator API unavailable </span>
+          <div>
+            <p className="text-red-500">Error! Translator API unavailable</p>
           </div>
         )}
       </div>

@@ -9,6 +9,7 @@ const Summarizer = () => {
   const [tempInput, setTempInput] = useState(""); // Temporary input storage
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [placeHolder, setPlaceHolder] = useState("Summarize text...");
 
   useEffect(() => {
     const initSummarizer = async (textInput) => {
@@ -84,10 +85,14 @@ const Summarizer = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!tempInput.trim()) return;
+    if (!tempInput.trim()) {
+      setPlaceHolder("⚠️ Please enter text!");
+      return;
+    }
 
     setMessages((prev) => [...prev, { sender: "user", text: tempInput }]);
-    setTempInput(""); // Clear input field
+    setTempInput("");
+    setPlaceHolder("Summarize text...");
   };
 
   return (
@@ -129,8 +134,8 @@ const Summarizer = () => {
               type="text"
               value={tempInput}
               onChange={(e) => setTempInput(e.target.value)}
-              placeholder="Summarize text..."
-              className="flex-grow bg-transparent border-none outline-none text-gray-800 p-2"
+              placeholder={placeHolder}
+              className="flex-grow bg-transparent border-none outline-none text-gray-800 p-2 text-[14px] md:text-[16px]"
             />
 
             <button
@@ -152,21 +157,8 @@ const Summarizer = () => {
         </div>
 
         {isError && (
-          <div role="alert" className="alert alert-error">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 shrink-0 stroke-current"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-            <span>Error! Summarizer API unavailable </span>
+          <div>
+            <p className="text-red-500">Error! Summarizer API unavailable</p>
           </div>
         )}
       </div>
