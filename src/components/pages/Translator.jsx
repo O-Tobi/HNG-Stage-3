@@ -125,7 +125,8 @@ const Translator = () => {
     setUserInput(tempInput);
 
     setMessages((prev) => [...prev, { sender: "user", text: tempInput }]);
-    setTempInput(""); // Clear input field
+    setTempInput("");
+    setPlaceHolder("Translate text...");
   };
 
   const handleSelectedLanguage = (event) => {
